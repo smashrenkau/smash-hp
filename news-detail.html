@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>お知らせ | 株式会社SMASH</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="header">
+    <div class="header-inner">
+      <a href="index.html" class="logo">
+        <img src="assets/smash-logo.png" alt="株式会社SMASH" width="120" height="40">
+      </a>
+      <nav class="nav">
+        <a href="index.html#top">トップ</a>
+        <a href="index.html#service">事業内容</a>
+        <a href="index.html#about">会社概要</a>
+        <a href="index.html#member">役員</a>
+        <a href="index.html#news">News</a>
+        <a href="index.html#contact">お問い合わせ</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="news-detail-main">
+    <div class="container">
+      <p class="news-detail-back"><a href="index.html#news">← News一覧へ</a></p>
+      <article class="news-detail-article" id="news-detail-content">
+        <p class="news-detail-loading">読み込み中…</p>
+      </article>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p class="copyright">&copy; 株式会社SMASH</p>
+    </div>
+  </footer>
+  <script>
+    (function() {
+      var apiBase = 'https://renkau.jp/wp-json/wp/v2/posts';
+      var params = new URLSearchParams(window.location.search);
+      var slug = params.get('slug');
+      var id = params.get('id');
+      var contentEl = document.getElementById('news-detail-content');
+      if (!contentEl) return;
+
+      function formatDate(dateStr) {
+        if (!dateStr) return '';
+        var d = new Date(dateStr);
+        return d.getFullYear() + '.' + String(d.getMonth() + 1).padStart(2, '0') + '.' + String(d.getDate()).padStart(2, '0');
+      }
+
+      function showError(msg) {
+        contentEl.innerHTML = '<p class="news-detail-error">' + (msg || '記事を取得できませんでした。') + '</p>';
+      }
+
+      if (!slug && !id) {
+        showError('記事が指定されていません。');
+        return;
+      }
+
+      var url = id ? apiBase + '/' + id + '?_embed' : apiBase + '?slug=' + encodeURIComponent(slug) + '&_embed';
+      fetch(url)
+        .then(function(r) { return r.ok ? r.json() : Promise.reject(new Error('Not found')); })
+        .then(function(data) {
+          var post = Array.isArray(data) ? data[0] : data;
+          if (!post) {
+            showError('記事が見つかりません。');
+            return;
+          }
+          var title = (post.title && post.title.rendered) ? post.title.rendered : '';
+          var dateStr = formatDate(post.date);
+          var body = (post.content && post.content.rendered) ? post.content.rendered : '';
+          var thumb = '';
+          if (post._embedded && post._embedded['wp:featuredmedia'] && post._embedded['wp:featuredmedia'][0]) {
+            thumb = post._embedded['wp:featuredmedia'][0].source_url;
+          }
+          document.title = (title ? title + ' | ' : '') + '株式会社SMASH';
+          var html = '';
+          if (dateStr) html += '<p class="news-detail-date">' + dateStr + '</p>';
+          if (title) html += '<h1 class="news-detail-title">' + title + '</h1>';
+          if (thumb) html += '<div class="news-detail-thumb"><img src="' + thumb + '" alt=""></div>';
+          if (body) html += '<div class="news-detail-body">' + body + '</div>';
+          contentEl.innerHTML = html || '<p>内容がありません。</p>';
+        })
+        .catch(function() { showError(); });
+    })();
+  </script>
+</body>
+</html>

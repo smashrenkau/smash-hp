@@ -1,0 +1,259 @@
+/* ===== Rentio風：清潔感・余白・信頼感 ===== */
+*, *::before, *::after { box-sizing: border-box; }
+body { margin: 0; font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Meiryo", sans-serif; font-size: 1rem; line-height: 1.8; color: #1a1a1a; background: #ffffff; }
+
+.container { max-width: 1000px; margin: 0 auto; padding: 0 2rem; }
+@media (max-width: 768px) { .container { padding: 0 1.25rem; } }
+
+/* ----- Header ----- */
+.header { position: sticky; top: 0; z-index: 100; background: #fff; border-bottom: 1px solid #e8ecf0; margin-bottom: 0; }
+.header-inner { max-width: 1000px; margin: 0 auto; padding: 1rem 2rem; display: flex; align-items: center; justify-content: space-between; }
+@media (max-width: 768px) { .header-inner { padding: 0.75rem 1.25rem; flex-wrap: wrap; gap: 0.5rem; } }
+.logo { display: block; }
+.logo img { display: block; height: 38px; width: auto; }
+.nav { display: flex; gap: 2rem; }
+.nav a { color: #2A3A49; text-decoration: none; font-size: 0.9rem; letter-spacing: 0.04em; font-weight: 500; }
+.nav a:hover { color: #256BA8; }
+@media (max-width: 768px) { .nav { width: 100%; justify-content: flex-end; gap: 1.25rem; } .nav a { font-size: 0.85rem; } }
+
+/* ----- Hero（キービジュアル・SVG 1枚） ----- */
+main { margin: 0; padding: 0; }
+.hero { position: relative; overflow: hidden; background: #fff; line-height: 0; margin: 0; padding: 0; height: 52vh; max-height: 520px; }
+.hero-keyvisual { display: block; margin: 0; padding: 0; height: 100%; }
+.hero-keyvisual img { width: 100%; height: 100%; display: block; margin: 0; padding: 0; object-fit: cover; object-position: center center; }
+.hero + .vision { padding-top: 0.5rem; }
+
+/* ----- Fade-in-up（スクロール連動） ----- */
+.fade-in-up { opacity: 0; transform: translateY(24px); transition: opacity 0.5s ease-out, transform 0.5s ease-out; }
+.fade-in-up.is-visible { opacity: 1; transform: translateY(0); }
+.vision .container > .fade-in-up:nth-child(1).is-visible { transition-delay: 0s; }
+.vision .container > .fade-in-up:nth-child(2).is-visible { transition-delay: 0.08s; }
+.vision .vision-layout > .fade-in-up:nth-child(1).is-visible { transition-delay: 0.12s; }
+.vision .vision-layout > .fade-in-up:nth-child(2).is-visible { transition-delay: 0.2s; }
+.vision .vision-layout > .fade-in-up:nth-child(3).is-visible { transition-delay: 0.28s; }
+.service .container > .fade-in-up:nth-child(1).is-visible { transition-delay: 0s; }
+.service .container > .fade-in-up:nth-child(2).is-visible { transition-delay: 0.08s; }
+.service-card:nth-child(3).is-visible { transition-delay: 0.1s; }
+.service-card:nth-child(4).is-visible { transition-delay: 0.2s; }
+.service-card:nth-child(5).is-visible { transition-delay: 0.3s; }
+.about .container > .fade-in-up:nth-child(1).is-visible { transition-delay: 0s; }
+.about .container > .fade-in-up:nth-child(2).is-visible { transition-delay: 0.08s; }
+.about .container > .fade-in-up:nth-child(3).is-visible { transition-delay: 0.16s; }
+.member .container > .fade-in-up:nth-child(1).is-visible { transition-delay: 0s; }
+.member .container > .fade-in-up:nth-child(2).is-visible { transition-delay: 0.08s; }
+.member .container > .fade-in-up:nth-child(3).is-visible { transition-delay: 0.16s; }
+.contact .container > .fade-in-up:nth-child(1).is-visible { transition-delay: 0s; }
+.contact .container > .fade-in-up:nth-child(2).is-visible { transition-delay: 0.08s; }
+.contact .container > .fade-in-up:nth-child(3).is-visible { transition-delay: 0.16s; }
+.contact .container > .fade-in-up:nth-child(4).is-visible { transition-delay: 0.24s; }
+.news .container > .fade-in-up:nth-child(1).is-visible { transition-delay: 0s; }
+.news .container > .fade-in-up:nth-child(2).is-visible { transition-delay: 0.08s; }
+.news .container > .fade-in-up:nth-child(3).is-visible { transition-delay: 0.16s; }
+
+/* ----- Section common ----- */
+.section-label { display: block; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.2em; color: #256BA8; text-transform: uppercase; margin-bottom: 0.6rem; }
+.section-title { margin: 0 0 2rem; font-size: 1.75rem; font-weight: 600; color: #2A3A49; letter-spacing: -0.02em; padding-bottom: 0.75rem; border-bottom: 3px solid #256BA8; display: inline-block; }
+.vision, .about { padding: 5rem 0; background: #fff; }
+.service, .contact, .news { padding: 5rem 0; background: #f6f8fa; }
+@media (max-width: 768px) { .hero { height: 48vh; max-height: none; } .vision, .service, .about, .contact, .news { padding: 4rem 0; } .hero + .vision { padding-top: 0.5rem; } .section-title { font-size: 1.5rem; margin-bottom: 1.5rem; } }
+
+/* ----- Vision（中央テキスト＋両脇に画像1枚ずつ・高さは文字に合わせる） ----- */
+.vision-layout { display: flex; align-items: stretch; gap: 2rem 2.5rem; margin-top: 0.5rem; max-width: 1000px; margin-left: auto; margin-right: auto; }
+.vision-side { flex: 0 0 auto; width: 220px; display: flex; align-items: center; justify-content: center; }
+.vision-side-img { width: 100%; height: 100%; object-fit: contain; object-position: center; display: block; }
+.vision-side-left .vision-side-img { object-position: left center; }
+.vision-side-right .vision-side-img { object-position: right center; }
+.vision-center { flex: 1 1 auto; min-width: 0; }
+.vision-center .vision-lead { font-size: 1.125rem; line-height: 1.75; color: #4a4a4a; margin: 0 0 1.75rem; }
+.vision-center .vision-text { margin: 0; font-size: 1rem; line-height: 1.9; color: #1a1a1a; }
+@media (max-width: 900px) { .vision-layout { flex-direction: column; align-items: center; gap: 1.5rem; } .vision-side { width: 200px; height: 240px; } .vision-side-img { width: 100%; height: 100%; } }
+@media (max-width: 768px) { .vision-side { width: 160px; height: 200px; } }
+
+/* ----- Service（Renkauテーマ：光る青グラデーションの装飾ボックス） ----- */
+.service-card {
+  position: relative;
+  margin-top: 1.5rem;
+  padding: 2.5rem 2.5rem 2.5rem 3rem;
+  background: linear-gradient(135deg, #fff 0%, #f8fcff 50%, #fff 100%);
+  border-radius: 12px;
+  border: 1px solid rgba(109, 213, 250, 0.35);
+  box-shadow: 0 4px 20px rgba(37, 107, 168, 0.08), 0 0 0 1px rgba(109, 213, 250, 0.15), 0 8px 32px rgba(45, 155, 255, 0.06);
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.55s ease-out, transform 0.55s ease-out, box-shadow 0.3s ease;
+  overflow: hidden;
+}
+.service-card::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 5px;
+  background: linear-gradient(180deg, #6DD5FA 0%, #42B4E8 35%, #256BA8 100%);
+  border-radius: 12px 0 0 12px;
+  box-shadow: 0 0 12px rgba(109, 213, 250, 0.5);
+}
+.service-card:hover {
+  box-shadow: 0 6px 28px rgba(37, 107, 168, 0.12), 0 0 0 1px rgba(109, 213, 250, 0.25), 0 12px 40px rgba(45, 155, 255, 0.1);
+}
+.service-card:first-of-type { margin-top: 0; }
+.service-card.is-visible { opacity: 1; transform: translateY(0); }
+.service-card-inner { min-width: 0; position: relative; z-index: 0; }
+.service-item-title { margin: 0 0 0.5rem; font-size: 1.25rem; font-weight: 600; color: #2A3A49; }
+.service-item-link { color: #256BA8; text-decoration: none; font-weight: 600; }
+.service-item-link:hover { color: #1a5a8a; text-decoration: underline; }
+.renkau-desc { margin: 0; font-size: 1rem; line-height: 1.85; color: #4a4a4a; }
+.service-item-desc { margin: 0; font-size: 0.95rem; line-height: 1.8; color: #4a4a4a; }
+@media (max-width: 768px) { .service-card { padding: 1.5rem 1.5rem 1.5rem 2rem; } .service-card::before { width: 4px; } }
+
+/* ----- About（Renkauテーマ装飾） ----- */
+.about-card {
+  position: relative;
+  margin-top: 0.5rem;
+  padding: 2.5rem 2.5rem 2.5rem 3rem;
+  background: linear-gradient(135deg, #fff 0%, #f8fcff 50%, #fff 100%);
+  border-radius: 12px;
+  border: 1px solid rgba(109, 213, 250, 0.35);
+  box-shadow: 0 4px 20px rgba(37, 107, 168, 0.08), 0 0 0 1px rgba(109, 213, 250, 0.15), 0 8px 32px rgba(45, 155, 255, 0.06);
+  overflow: hidden;
+  transition: box-shadow 0.3s ease;
+}
+.about-card::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 5px;
+  background: linear-gradient(180deg, #6DD5FA 0%, #42B4E8 35%, #256BA8 100%);
+  border-radius: 12px 0 0 12px;
+  box-shadow: 0 0 12px rgba(109, 213, 250, 0.5);
+}
+.about-card:hover {
+  box-shadow: 0 6px 28px rgba(37, 107, 168, 0.12), 0 0 0 1px rgba(109, 213, 250, 0.25), 0 12px 40px rgba(45, 155, 255, 0.1);
+}
+.about-list { margin: 0; flex: 1; min-width: 0; position: relative; z-index: 0; }
+.about-list-standalone { margin-top: 0; max-width: 36rem; }
+.about-list dt { font-size: 0.875rem; font-weight: 600; color: #2A3A49; margin-top: 0; padding: 0.85rem 0 0.35rem; border-bottom: 1px solid rgba(109, 213, 250, 0.25); }
+.about-list dd { margin: 0; padding: 0.35rem 0 0.85rem; font-size: 0.95rem; color: #1a1a1a; line-height: 1.7; border-bottom: 1px solid rgba(109, 213, 250, 0.25); }
+.about-list dd:last-of-type { border-bottom: none; padding-bottom: 0; }
+@media (max-width: 768px) { .about-card { padding: 1.5rem 1.5rem 1.5rem 2rem; } .about-card::before { width: 4px; } }
+
+/* ----- Member（Renkauテーマ装飾） ----- */
+.member { padding: 5rem 0; background: #f6f8fa; }
+@media (max-width: 768px) { .member { padding: 4rem 0; } }
+.member-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2.5rem; margin-top: 2rem; }
+@media (max-width: 768px) { .member-grid { grid-template-columns: 1fr; gap: 2rem; } }
+.member-card {
+  position: relative;
+  background: linear-gradient(135deg, #fff 0%, #f8fcff 50%, #fff 100%);
+  border-radius: 12px;
+  border: 1px solid rgba(109, 213, 250, 0.35);
+  box-shadow: 0 4px 20px rgba(37, 107, 168, 0.08), 0 0 0 1px rgba(109, 213, 250, 0.15), 0 8px 32px rgba(45, 155, 255, 0.06);
+  overflow: hidden;
+  transition: box-shadow 0.3s ease;
+}
+.member-card::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 5px;
+  background: linear-gradient(180deg, #6DD5FA 0%, #42B4E8 35%, #256BA8 100%);
+  border-radius: 12px 0 0 12px;
+  box-shadow: 0 0 12px rgba(109, 213, 250, 0.5);
+  z-index: 1;
+}
+.member-card:hover {
+  box-shadow: 0 6px 28px rgba(37, 107, 168, 0.12), 0 0 0 1px rgba(109, 213, 250, 0.25), 0 12px 40px rgba(45, 155, 255, 0.1);
+}
+.member-photo { line-height: 0; position: relative; z-index: 0; }
+.member-photo img { width: 100%; height: auto; display: block; }
+.member-info { padding: 1.5rem; position: relative; z-index: 0; }
+.member-name { margin: 0 0 0.25rem; font-size: 1.125rem; font-weight: 600; color: #2A3A49; }
+.member-roman { margin: 0 0 0.5rem; font-size: 0.8rem; color: #256BA8; }
+.member-role { margin: 0 0 1rem; font-size: 0.9rem; color: #4a4a4a; padding-bottom: 1rem; border-bottom: 1px solid rgba(109, 213, 250, 0.25); }
+.member-profile p { margin: 0 0 0.75rem; font-size: 0.9rem; line-height: 1.75; color: #1a1a1a; }
+.member-profile p:last-child { margin-bottom: 0; }
+@media (max-width: 768px) { .member-card::before { width: 4px; } }
+
+/* ----- News（私たちの想いの直下・右→左オートスクロール） ----- */
+.news-scroll-viewport { overflow: hidden; margin-top: 0.5rem; width: 100%; }
+.news-track {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 1.5rem;
+  width: max-content;
+}
+.news-track--scroll {
+  animation: news-scroll 50s linear infinite;
+}
+.news-track--scroll:hover { animation-play-state: paused; }
+@keyframes news-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.news-loading, .news-error, .news-empty { text-align: center; color: #4a4a4a; margin: 2rem 0; }
+.news-card {
+  flex: 0 0 auto;
+  width: 280px;
+  min-width: 280px;
+  position: relative;
+  background: linear-gradient(135deg, #fff 0%, #f8fcff 50%, #fff 100%);
+  border-radius: 12px;
+  border: 1px solid rgba(109, 213, 250, 0.35);
+  box-shadow: 0 4px 20px rgba(37, 107, 168, 0.08), 0 0 0 1px rgba(109, 213, 250, 0.15), 0 8px 32px rgba(45, 155, 255, 0.06);
+  overflow: hidden;
+  transition: box-shadow 0.3s ease;
+}
+.news-card::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 5px;
+  background: linear-gradient(180deg, #6DD5FA 0%, #42B4E8 35%, #256BA8 100%);
+  border-radius: 12px 0 0 12px;
+  box-shadow: 0 0 12px rgba(109, 213, 250, 0.5);
+  z-index: 1;
+}
+.news-card:hover { box-shadow: 0 6px 28px rgba(37, 107, 168, 0.12), 0 0 0 1px rgba(109, 213, 250, 0.25), 0 12px 40px rgba(45, 155, 255, 0.1); }
+.news-card-link { display: block; text-decoration: none; color: inherit; padding: 0; position: relative; z-index: 0; }
+.news-card-thumb { aspect-ratio: 16/10; background: #e8ecf0; overflow: hidden; line-height: 0; }
+.news-card-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.news-card-noimg { display: flex; align-items: center; justify-content: center; height: 100%; font-size: 0.75rem; color: #999; }
+.news-card-date { margin: 0.75rem 1rem 0; font-size: 0.8rem; color: #256BA8; font-weight: 600; }
+.news-card-title { margin: 0.35rem 1rem 0; font-size: 0.95rem; font-weight: 600; color: #2A3A49; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.news-card-excerpt { margin: 0.35rem 1rem 0; font-size: 0.8rem; color: #4a4a4a; line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.news-card-arrow { position: absolute; right: 1rem; bottom: 1rem; width: 36px; height: 36px; border-radius: 50%; background: rgba(37, 107, 168, 0.12); display: flex; align-items: center; justify-content: center; }
+.news-card-arrow::after { content: ""; width: 8px; height: 8px; border-right: 2px solid #256BA8; border-top: 2px solid #256BA8; transform: rotate(45deg); margin-left: 2px; margin-top: -2px; }
+@media (max-width: 768px) { .news-card { width: 260px; min-width: 260px; } .news-card::before { width: 4px; } .news-track--scroll { animation-duration: 60s; } }
+
+/* ----- News 詳細ページ ----- */
+.news-detail-main { padding: 4rem 0 5rem; background: #fff; min-height: 50vh; }
+.news-detail-back { margin: 0 0 2rem; font-size: 0.9rem; }
+.news-detail-back a { color: #256BA8; text-decoration: none; }
+.news-detail-back a:hover { text-decoration: underline; }
+.news-detail-article { position: relative; max-width: 42rem; }
+.news-detail-loading, .news-detail-error { color: #4a4a4a; margin: 2rem 0; }
+.news-detail-date { margin: 0 0 0.5rem; font-size: 0.9rem; color: #256BA8; font-weight: 600; }
+.news-detail-title { margin: 0 0 1.5rem; font-size: 1.75rem; font-weight: 600; color: #2A3A49; line-height: 1.4; padding-bottom: 0.75rem; border-bottom: 3px solid #256BA8; }
+.news-detail-thumb { margin: 0 0 1.5rem; border-radius: 8px; overflow: hidden; line-height: 0; }
+.news-detail-thumb img { width: 100%; height: auto; display: block; }
+.news-detail-body { font-size: 1rem; line-height: 1.9; color: #1a1a1a; }
+.news-detail-body img { max-width: 100%; height: auto; }
+.news-detail-body p { margin: 0 0 1rem; }
+.news-detail-body p:last-child { margin-bottom: 0; }
+
+/* ----- Contact ----- */
+.contact-text { margin: 0 0 0.5rem; font-size: 1rem; color: #1a1a1a; }
+.contact-email { margin: 0; font-size: 1.125rem; }
+.contact-email a { color: #256BA8; text-decoration: none; font-weight: 500; }
+.contact-email a:hover { text-decoration: underline; }
+
+/* ----- Footer ----- */
+.footer { padding: 2rem 0; background: #2A3A49; }
+.copyright { margin: 0; font-size: 0.85rem; color: rgba(255,255,255,0.8); text-align: center; }
