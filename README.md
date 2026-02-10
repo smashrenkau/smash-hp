@@ -1,49 +1,128 @@
 # smash-hp
 
 株式会社SMASHのコーポレートサイトです。  
-**公開先**: [smash-inc.co.jp](https://smash-inc.co.jp)（予定）  
+**公開先**: [smash-inc.co.jp](https://smash-inc.co.jp)  
 **News**: WordPress で作成・管理し、REST API で本サイトに表示します。
 
 ---
 
-## 公開（smash-inc.co.jp）
+## 🚀 公開方法
 
-1. **ドメイン**  
-   smash-inc.co.jp の DNS を、サイトを置くサーバー（レンタルサーバー・Netlify・Vercel など）の A レコードまたは CNAME で向ける。
+### 構成
 
-2. **ファイルのアップロード**  
-   - このリポジトリの `index.html` / `news-detail.html` / `style.css` / `assets/` をそのままアップロードする。  
-   - または Git 連携でデプロイ（Netlify/Vercel 等ではリポジトリを接続し、公開ディレクトリをルートに指定）。
+WordPress と静的サイトを **同一ドメイン `smash-inc.co.jp`** で統合運用
 
-3. **トップページ**  
-   ドメインのルートで `index.html` が表示されるようにする（多くのサーバーは `index.html` を自動で表示）。
+- **静的サイト**: `index.html`、`news-detail.html`、`style.css`、`assets/`
+- **WordPress**: `smash-inc.co.jp/wp-admin/`（記事管理用）
+- **News API**: `https://smash-inc.co.jp/wp-json/wp/v2/posts`
+
+### クイックスタート
+
+👉 **`クイックスタートガイド_WordPress統合版.md`** をご覧ください（約15分で公開完了）
+
+詳細な手順は **`公開手順_WordPress統合版.md`** をご参照ください。
 
 ---
 
-## News を WordPress で運用する
+## 📝 ファイル構成
 
-- **想定**: WordPress を **news.smash-inc.co.jp** に設置し、そこに投稿した記事を本サイトの News セクション・詳細ページで表示しています。
-- **API**: `https://news.smash-inc.co.jp/wp-json/wp/v2/posts` を参照しています。
+### 本番環境にアップロードするファイル
 
-### WordPress 側の準備
+```
+/smash-inc.co.jp/public_html/
+├── index.html          ← トップページ
+├── news-detail.html    ← News詳細ページ
+├── style.css           ← スタイルシート
+├── assets/             ← 画像フォルダ
+├── wp-admin/           ← WordPress（既存）
+├── wp-content/         ← WordPress（既存）
+└── .htaccess           ← 編集必要
+```
 
-1. **WordPress の設置**  
-   - サブドメイン `news.smash-inc.co.jp` で WordPress をインストール（レンタルサーバーのサブドメイン設定や別サーバーで可）。
+詳細は **`アップロードファイル一覧_WordPress統合版.md`** をご参照ください。
 
-2. **REST API**  
-   - 標準のまま利用（投稿の取得は認証不要）。  
-   - 固定ページではなく「投稿」を使う。
+---
 
-3. **アイキャッチ画像**  
-   - 各投稿にアイキャッチを設定すると、一覧・詳細で表示されます。
+## 🔧 重要な設定
 
-4. **別URLにしたい場合**  
-   - WordPress を別ドメインやパス（例: `smash-inc.co.jp/wp/`）に置く場合は、以下を書き換えてください。  
-   - `index.html`: `.news-track` の `data-api-url` の値。  
-   - `news-detail.html`: 先頭付近の `apiBase` の値。
+### .htaccess の設定
 
-### クロスオリジン（CORS）
+WordPress と静的サイトを共存させるため、`.htaccess` の編集が必要です。
 
-- 本サイトを **smash-inc.co.jp**、WordPress を **news.smash-inc.co.jp** で運用する場合、ブラウザから別オリジンへ API アクセスします。
-- WordPress の REST API は多くの環境で GET が許可されています。  
-  取得できない場合は、サーバーまたは WordPress で `Access-Control-Allow-Origin` に `https://smash-inc.co.jp` を追加する必要がある場合があります。
+サンプルファイル: **`.htaccess-sample`**
+
+```apache
+# 静的ファイルを優先
+DirectoryIndex index.html index.php
+
+# 静的ファイルは WordPress のルーティングから除外
+RewriteRule ^index\.html$ - [L]
+RewriteRule ^news-detail.html$ - [L]
+RewriteRule ^style\.css$ - [L]
+RewriteRule ^assets/ - [L]
+```
+
+### WordPress パーマリンク設定
+
+WordPress 管理画面：「設定」→「パーマリンク」→「投稿名」を選択
+
+---
+
+## 📰 News の仕組み
+
+1. **WordPress で記事を投稿**（`smash-inc.co.jp/wp-admin/`）
+2. **REST API で記事データを取得**（`/wp-json/wp/v2/posts`）
+3. **静的サイトで自動表示**（`index.html` の News セクション）
+4. **詳細ページで表示**（`news-detail.html`）
+
+### API URL
+
+- **トップページ（News一覧）**: `index.html` 67行目
+  ```html
+  data-api-url="https://smash-inc.co.jp/wp-json/wp/v2/posts"
+  ```
+
+- **詳細ページ**: `news-detail.html` 59行目
+  ```javascript
+  var apiBase = 'https://smash-inc.co.jp/wp-json/wp/v2/posts';
+  ```
+
+---
+
+## ✅ 公開後の運用
+
+### 記事の投稿
+
+1. https://smash-inc.co.jp/wp-admin/ にログイン
+2. 「投稿」→「新規追加」
+3. タイトル、本文、アイキャッチ画像を設定
+4. 「公開」
+
+→ 数秒後、トップページの News セクションに自動反映
+
+### サイトの更新
+
+1. ローカルで HTML/CSS を編集
+2. FTP またはファイルマネージャーでアップロード
+3. ブラウザでキャッシュクリア（Ctrl+F5）
+
+---
+
+## 📚 ドキュメント
+
+- **クイックスタートガイド_WordPress統合版.md**: 最短15分で公開
+- **公開手順_WordPress統合版.md**: 詳細な手順とトラブルシューティング
+- **アップロードファイル一覧_WordPress統合版.md**: アップロードファイルの詳細
+
+---
+
+## 🔐 セキュリティ
+
+- WordPress 管理画面のパスワードを強固に
+- 定期的な WordPress アップデート
+- 不要なプラグイン・テーマの削除
+- ログインURL変更プラグインの導入推奨
+
+---
+
+作成日: 2026年2月10日

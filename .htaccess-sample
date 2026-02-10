@@ -1,0 +1,25 @@
+# 静的サイト + WordPress 統合用 .htaccess
+# このファイルの内容を smash-inc.co.jp/public_html/.htaccess にコピーしてください
+
+# 静的ファイルを優先
+DirectoryIndex index.html index.php
+
+# WordPress の設定
+# BEGIN WordPress
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteBase /
+
+# 静的ファイルは WordPress のルーティングから除外
+RewriteRule ^index\.html$ - [L]
+RewriteRule ^news-detail\.html$ - [L]
+RewriteRule ^style\.css$ - [L]
+RewriteRule ^assets/ - [L]
+
+# WordPress のルーティング
+RewriteRule ^index\.php$ - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /index.php [L]
+</IfModule>
+# END WordPress

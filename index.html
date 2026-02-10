@@ -63,8 +63,11 @@
       <div class="container">
         <span class="section-label fade-in-up">News</span>
         <h2 class="section-title fade-in-up">News</h2>
-        <div class="news-scroll-viewport">
-          <div class="news-track news-track--scroll fade-in-up" data-api-url="https://news.smash-inc.co.jp/wp-json/wp/v2/posts">
+        <div class="news-scroll-container fade-in-up">
+          <button type="button" class="news-arrow-btn news-arrow-btn--prev" aria-label="前のニュースへ"></button>
+          <button type="button" class="news-arrow-btn news-arrow-btn--next" aria-label="次のニュースへ"></button>
+          <div class="news-scroll-viewport">
+            <div class="news-track news-track--scroll" data-api-url="https://smash-inc.co.jp/wp-json/wp/v2/posts">
             <article class="news-card">
               <a href="#" class="news-card-link">
                 <div class="news-card-thumb"><span class="news-card-noimg">No image</span></div>
@@ -138,6 +141,7 @@
                 <span class="news-card-arrow" aria-hidden="true"></span>
               </a>
             </article>
+            </div>
           </div>
         </div>
       </div>
@@ -268,6 +272,59 @@
         if (e.target.closest && e.target.closest('a')) return;
         var track = viewport.querySelector('.news-track');
         if (track && track.classList.contains('news-track--scroll')) track.classList.toggle('paused');
+      });
+    })();
+  </script>
+  <script>
+    (function() {
+      var prevBtn = document.querySelector('.news-arrow-btn--prev');
+      var nextBtn = document.querySelector('.news-arrow-btn--next');
+      var viewport = document.querySelector('.news-scroll-viewport');
+      var track = document.querySelector('.news-track');
+      if (!prevBtn || !nextBtn || !viewport || !track) return;
+
+      var currentScroll = 0;
+      var cardWidth = 280; // カード幅
+      var gap = 24; // gap: 1.5rem = 24px
+      var scrollAmount = (cardWidth + gap) * 2; // 2枚分
+
+      // 自動スクロールを一時停止してマニュアルスクロール
+      function pauseAutoScroll() {
+        track.classList.add('paused');
+        track.style.animation = 'none';
+      }
+
+      // スクロール実行
+      function scrollTo(position) {
+        track.style.transform = 'translateX(' + (-position) + 'px)';
+      }
+
+      // 次へボタン
+      nextBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        pauseAutoScroll();
+        currentScroll += scrollAmount;
+        
+        // 最大スクロール位置を計算（無限ループ風に）
+        var maxScroll = track.scrollWidth / 2;
+        if (currentScroll >= maxScroll) {
+          currentScroll = 0;
+        }
+        scrollTo(currentScroll);
+      });
+
+      // 前へボタン
+      prevBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        pauseAutoScroll();
+        currentScroll -= scrollAmount;
+        
+        // 負の値になったら最後に戻す
+        if (currentScroll < 0) {
+          var maxScroll = track.scrollWidth / 2;
+          currentScroll = maxScroll - scrollAmount;
+        }
+        scrollTo(currentScroll);
       });
     })();
   </script>
