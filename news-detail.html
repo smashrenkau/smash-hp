@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>お知らせ | 株式会社SMASH</title>
   <link rel="stylesheet" href="style.css">
 </head>
@@ -12,12 +12,17 @@
       <a href="index.html" class="logo">
         <img src="assets/smash-logo.png" alt="株式会社SMASH" width="120" height="40">
       </a>
-      <nav class="nav">
+      <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="global-nav" aria-label="メニューを開く">
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+      </button>
+      <nav class="nav" id="global-nav">
         <a href="index.html#top">トップ</a>
-        <a href="index.html#service">事業内容</a>
-        <a href="index.html#about">会社概要</a>
-        <a href="index.html#member">役員</a>
         <a href="index.html#news">News</a>
+        <a href="index.html#service">事業内容</a>
+        <a href="index.html#member">役員</a>
+        <a href="index.html#about">会社概要</a>
         <a href="index.html#contact">お問い合わせ</a>
       </nav>
     </div>
@@ -39,7 +44,19 @@
   </footer>
   <script>
     (function() {
-      var apiBase = 'https://renkau.jp/wp-json/wp/v2/posts';
+      var btn = document.querySelector('.nav-toggle');
+      var nav = document.getElementById('global-nav');
+      if (!btn || !nav) return;
+      function open() { document.body.classList.add('nav-is-open'); btn.setAttribute('aria-expanded', 'true'); btn.setAttribute('aria-label', 'メニューを閉じる'); }
+      function close() { document.body.classList.remove('nav-is-open'); btn.setAttribute('aria-expanded', 'false'); btn.setAttribute('aria-label', 'メニューを開く'); }
+      function toggle() { if (document.body.classList.contains('nav-is-open')) close(); else open(); }
+      btn.addEventListener('click', toggle);
+      nav.querySelectorAll('a').forEach(function(a) { a.addEventListener('click', close); });
+    })();
+  </script>
+  <script>
+    (function() {
+      var apiBase = 'https://news.smash-inc.co.jp/wp-json/wp/v2/posts';
       var params = new URLSearchParams(window.location.search);
       var slug = params.get('slug');
       var id = params.get('id');
